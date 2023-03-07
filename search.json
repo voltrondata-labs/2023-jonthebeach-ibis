@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Larger Than Memory Data Workflows with Apache Arrow and Ibis",
+    "section": "",
+    "text": "This the website for the workshop “Larger Than Memory Data Workflows with Apache Arrow and Ibis” taught at the J on The Beach conference on May 10th, 2023."
+  },
+  {
+    "objectID": "index.html#abstract",
+    "href": "index.html#abstract",
+    "title": "Larger Than Memory Data Workflows with Apache Arrow and Ibis",
+    "section": "Abstract",
+    "text": "Abstract\nAs datasets become larger and more complex, the boundaries between data engineering and data science are becoming blurred. Data analysis pipelines with larger-than-memory data are becoming commonplace, creating a gap that needs to be bridged: between engineering tools designed to work with very large datasets on the one hand, and data science tools that provide the analysis capabilities used in data workflows on the other. One way to build this bridge is with Apache Arrow, a multi-language toolbox for working with larger-than-memory tabular data. Arrow is designed to improve performance and efficiency, and places emphasis on standardization and interoperability among workflow components, programming languages, and systems. We’ll combine the power of Arrow for compressing data into its most compact form with Ibis for data analysis in Python. Ibis is a pandas-like, Python interface that allows you to do robust analytics work on data of any size. It does this by letting you choose from a range of powerful database engines that can process your data queries. In this workshop we’ll be working with a very large dataset and drawing insights from it all from our local machine."
+  }
+]
