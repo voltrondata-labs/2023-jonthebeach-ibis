@@ -9,6 +9,12 @@ This the website for the workshop "Larger Than Memory Data Workflows
 with Apache Arrow and Ibis" taught at the J on The Beach conference on
 May 10th, 2023.
 
+::: {.callout-tip}
+## Learning Objectives
+
+:::
+
+
 ## Working with Remote Data 
 
 ### Learning objectives

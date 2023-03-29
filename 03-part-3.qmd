@@ -8,10 +8,15 @@ This the website for the workshop "Larger Than Memory Data Workflows
 with Apache Arrow and Ibis" taught at the J on The Beach conference on
 May 10th, 2023.
 
+::: {.callout-tip}
+## Learning objectives
+
+:::
+
+
 ### Introduction to Ibis
 
 In this part of the  training, we want to do some analytics work to get insights from the data. To do this we will be using Ibis. 
-
 
 Ibis is a Python library that provides a lightweight, universal interface for data wrangling. It helps Python users explore and transform data of any size, stored anywhere. 
 
@@ -51,7 +56,7 @@ For this first part of the tutorial we will specifically be using the `TEN` and 
 
 Here are the questions asked to get the data for these columns:
 
-```{text}
+```default
 TEN Character 1
 Tenure
 b .N/A (GQ/vacant)
@@ -61,7 +66,7 @@ b .N/A (GQ/vacant)
 4 .Occupied without payment of rent
 ```
 
-```
+```default
 HHLDRAGEP Numeric 2
 Age of the householder
 bb .N/A (GQ/vacant)
@@ -82,7 +87,10 @@ tenure_type = (
 )
 ```
 
-#Run this and print head of this table 
+::: {.callout-note}
+Run this and print head of this table 
+:::
+
 
 Next we'll use `mutate` to add two new columns `tenure_type` and `age_group` to the table. These will be used to group the different types of home ownership and age groups into more clear categories using the `group_by` function.
 ```{python}
@@ -180,6 +188,9 @@ res = (
 res.order_by(ibis.desc(_.prop))
 
 ```
-#run this code and show the resulting table.
+
+::: {.callout-note}
+Run this code and show the resulting table.
+:::
 
 Great work! For the last part of this tutorial we'll switch to a remote database and answer a few more questions but using another backend. 

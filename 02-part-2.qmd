@@ -9,13 +9,18 @@ This the website for the workshop "Larger Than Memory Data Workflows
 with Apache Arrow and Ibis" taught at the J on The Beach conference on
 May 10th, 2023.
 
-## Accessing the Data 
 
-### Learning objectives
+::: {.callout-tip}
+## Learning objectives
 
 * Read in data using Apache Arrow 
 * Convert data from CSV to Parquet 
 * Compare CSV file size to Parquet file size 
+:::
+
+
+
+## Accessing the Data 
 
 ### The PUMS Dataset
 
@@ -30,20 +35,23 @@ Luckily for us, census.gov also provides data via their FTP server. We'll be usi
 You can download the data in CSV format using this [FTP link](https://www.notion.so/Scaling-Down-The-Python-Libraries-You-Need-to-Compress-and-Analyze-the-PUMS-Dataset-4bbb069c4a7843a79455a628775a1b65). To do this use your preferred tool, such as `wget` or `aria2`.
 
 As an example, here's how to download the data using wget on a Mac. Run the following lines in your terminal, to retrieve and then unzip the data:
-```{python}
 
-#use wget or your ftp retrieval method of choice 
-wget --recursive -w 2 -nc --level=1 --no-parent --no-directories  --accept 'csv*' --reject '*pus*' --reject '*hus*' --directory-prefix=. ftp://ftp.census.gov/programs-surveys/acs/data/pums/2020/5-Year/
+```bash
+# use wget or your ftp retrieval method of choice 
+wget --recursive -w 2 -nc --level=1 --no-parent --no-directories \
+     --accept 'csv*' --reject '*pus*' --reject '*hus*' \
+     --directory-prefix=. \
+     ftp://ftp.census.gov/programs-surveys/acs/data/pums/2020/5-Year/
 
-#unizp the files, feel free to use your method of choice 
-unzip \*.zip
+# unizp the files, feel free to use your method of choice 
+unzip *.zip
 ```
 
 The PUMS dataset is divided into data about people and data about households. After unzipping the files, we’ll divide the five-year set into person-focused and housing-focused data. 
 
-Person data can be identified by the naming pattern psam_p*.csv, while housing data has the pattern psam_h*.csv. From there, you can just use globbing to move them where you want them — the example below will work on Mac and Linux.
-```{python}
+Person data can be identified by the naming pattern psam\_p*.csv, while housing data has the pattern psam\_h*.csv. From there, you can just use globbing to move them where you want them — the example below will work on Mac and Linux.
 
+```bash
 mkdir housing
 mkdir people
 mv psam_h* ./household/
