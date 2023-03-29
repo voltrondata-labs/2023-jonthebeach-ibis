@@ -1,0 +1,20 @@
+---
+title: "Part 4 -- Using Ibis With SnowflakeDB"
+execute:
+  eval: false
+jupyter: python3
+---
+
+This the website for the workshop "Larger Than Memory Data Workflows
+with Apache Arrow and Ibis" taught at the J on The Beach conference on
+May 10th, 2023.
+
+## Working with Remote Data 
+
+### Learning objectives
+
+* Connect to Snowflake database 
+* Show how code from previous tutorial can be reused with different backend
+* Make a table and convert it into a local parquet file. 
+
+### Introduction to Snowflake 
