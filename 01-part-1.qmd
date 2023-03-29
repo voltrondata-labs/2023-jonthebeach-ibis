@@ -1,0 +1,60 @@
+---
+title: "Part 1 -- Dataset"
+execute:
+  eval: false
+jupyter: python3
+---
+
+## Presentation of the dataset
+
+### What is PUMS?
+
+The Public Use Microdata Sample (PUMS) dataset is a subsample of the American Community Survey (ACS) interviews done on one percent of all US households. It is a detailed collection of information including demographic, housing, and economic characteristics. It is collected by the U.S. Census Bureau as part of the decennial census and is made available to the public for research and analysis. However, due to its large size, analyzing the PUMS dataset is difficult. Today, we will show you how it is possible to wrangle it with just a couple of tools.
+
+Some characteristics of PUMS:
+
+- Public Use: data is anonymized and downloadable 
+- Microdata: records of individual people 
+- Sample: a representative sample of the population 
+
+![from census.gov](whatispums.png)
+
+The ACS typically produces 1-, and 5-year PUMS files that they make available as SAS and CSV files [here](https://www.census.gov/programs-surveys/acs/microdata/access.2021.html#list-tab-735824205). 
+
+
+### The dataset
+
+In this tutorial we will be using data from the [PUMS 2016-2020 ACS 5 year dataset](https://www.census.gov/programs-surveys/acs/microdata/access.2020.html#list-tab-735824205). We will be accessing these PUMS files through the File Transfer Protocol (FTP) website. 
+
+The 2020 ACS 5-year PUMS dataset contains a set of two file types:
+
+* housing records 
+* person records 
+
+These records represent the fact that PUMS is divided into data about people and data about households. Person data is named `psam_p**.csv`, and household data is named `psam_h**.csv`.
+
+Each file contains over 234 columns, and you can find the column name and the question that was asked to retrieve the information in the [PUMS Data Dictionary](https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2016-2020.pdf). 
+
+For this tutorial we are specifically interested in the following columns from the 2 tables. 
+
+The 2 Tables: 
+
+- **psam_p\*\*.csv (most specialized) (153 MB)**: 
+  + HINCP: household income for the past 12 months
+  + ST: a list of numbers, corresponding to the various US states (alphabetized)
+
+
+- **psam_p\*\*.csv (most specialized) (153 MB)**: 
+  + WAGP: person income or wages for the past 12 months
+  + AGEP: person age 
+
+
+More dataset info: [https://www.census.gov/programs-surveys/acs/microdata/documentation.2020.html#list-tab-1370939201](https://www.census.gov/programs-surveys/acs/microdata/documentation.2020.html#list-tab-1370939201)
+
+Data source (FTP): [https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/](https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/)
+
+ 
+
+In Part 1 of this tutorial we will get the data from the FTP site and and store it on our machine. 
+
+
