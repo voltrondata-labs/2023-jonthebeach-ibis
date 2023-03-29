@@ -16,7 +16,6 @@ website:
         text: Part 3
       - href: 04-part-4.qmd
         text: Part 4
-      - about.qmd
 
 format:
   html:
