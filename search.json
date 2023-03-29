@@ -1,5 +1,12 @@
 [
   {
+    "objectID": "01-part-1.html",
+    "href": "01-part-1.html",
+    "title": "Part 1 – Dataset",
+    "section": "",
+    "text": "The Public Use Microdata Sample (PUMS) dataset is a subsample of the American Community Survey (ACS) interviews done on one percent of all US households. It is a detailed collection of information including demographic, housing, and economic characteristics. It is collected by the U.S. Census Bureau as part of the decennial census and is made available to the public for research and analysis. However, due to its large size, analyzing the PUMS dataset is difficult. Today, we will show you how it is possible to wrangle it with just a couple of tools.\nSome characteristics of PUMS:\n\nPublic Use: data is anonymized and downloadable\nMicrodata: records of individual people\nSample: a representative sample of the population\n\n\n\n\nfrom census.gov\n\n\nThe ACS typically produces 1-, and 5-year PUMS files that they make available as SAS and CSV files here.\n\n\n\nIn this tutorial we will be using data from the PUMS 2016-2020 ACS 5 year dataset. We will be accessing these PUMS files through the File Transfer Protocol (FTP) website.\nThe 2020 ACS 5-year PUMS dataset contains a set of two file types:\n\nhousing records\nperson records\n\nThese records represent the fact that PUMS is divided into data about people and data about households. Person data is named psam_p**.csv, and household data is named psam_h**.csv.\nEach file contains over 234 columns, and you can find the column name and the question that was asked to retrieve the information in the PUMS Data Dictionary.\nFor this tutorial we are specifically interested in the following columns from the 2 tables.\nThe 2 Tables:\n\npsam_p**.csv (most specialized) (153 MB):\n\nHINCP: household income for the past 12 months\nST: a list of numbers, corresponding to the various US states (alphabetized)\n\npsam_p**.csv (most specialized) (153 MB):\n\nWAGP: person income or wages for the past 12 months\nAGEP: person age\n\n\nMore dataset info: https://www.census.gov/programs-surveys/acs/microdata/documentation.2020.html#list-tab-1370939201\nData source (FTP): https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/\nIn Part 2 of this tutorial we will get the data from the FTP site and and store it on our machine."
+  },
+  {
     "objectID": "04-part-4.html",
     "href": "04-part-4.html",
     "title": "Part 4 – Using Ibis With SnowflakeDB",
@@ -12,13 +19,6 @@
     "title": "Part 4 – Using Ibis With SnowflakeDB",
     "section": "Working with Remote Data",
     "text": "Working with Remote Data\n\nLearning objectives\n\nConnect to Snowflake database\nShow how code from previous tutorial can be reused with different backend\nMake a table and convert it into a local parquet file.\n\n\n\nIntroduction to Snowflake"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "About this site"
   },
   {
     "objectID": "03-part-3.html",
@@ -54,13 +54,6 @@
     "title": "Larger Than Memory Data Workflows with Apache Arrow and Ibis",
     "section": "Overview of the Training",
     "text": "Overview of the Training\n\nImporting data in the Apache Arrow ecosystems, what are the different file formats, how do they differ, which ones to use?\nLearning how to use Ibis for data wrangling on Parquet files\nUse Ibis with remote data sources: Snowflake (demo to try at home)"
-  },
-  {
-    "objectID": "index.html#presentation-of-the-dataset",
-    "href": "index.html#presentation-of-the-dataset",
-    "title": "Larger Than Memory Data Workflows with Apache Arrow and Ibis",
-    "section": "Presentation of the dataset",
-    "text": "Presentation of the dataset\n\nWhat is PUMS?\nThe Public Use Microdata Sample (PUMS) dataset is a subsample of the American Community Survey (ACS) interviews done on one percent of all US households. It is a detailed collection of information including demographic, housing, and economic characteristics. It is collected by the U.S. Census Bureau as part of the decennial census and is made available to the public for research and analysis. However, due to its large size, analyzing the PUMS dataset is difficult. Today, we will show you how it is possible to wrangle it with just a couple of tools.\nSome characteristics of PUMS:\n\nPublic Use: data is anonymized and downloadable\nMicrodata: records of individual people\nSample: a representative sample of the population\n\n\n\n\nfrom census.gov\n\n\nThe ACS typically produces 1-, and 5-year PUMS files that they make available as SAS and CSV files here.\n\n\nThe dataset\nIn this tutorial we will be using data from the PUMS 2016-2020 ACS 5 year dataset. We will be accessing these PUMS files through the File Transfer Protocol (FTP) website.\nThe 2020 ACS 5-year PUMS dataset contains a set of two file types:\n\nhousing records\nperson records\n\nThese records represent the fact that PUMS is divided into data about people and data about households. Person data is named psam_p**.csv, and household data is named psam_h**.csv.\nEach file contains over 234 columns, and you can find the column name and the question that was asked to retrieve the information in the PUMS Data Dictionary.\nFor this tutorial we are specifically interested in the following columns from the 2 tables.\nThe 2 Tables:\n\npsam_p.csv (most specialized) (153 MB)**:\n\nHINCP: household income for the past 12 months\nST: a list of numbers, corresponding to the various US states (alphabetized)\n\npsam_p.csv (most specialized) (153 MB)**:\n\nWAGP: person income or wages for the past 12 months\nAGEP: person age\n\n\nMore dataset info: https://www.census.gov/programs-surveys/acs/microdata/documentation.2020.html#list-tab-1370939201\nData source (FTP): https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/\nIn Part 1 of this tutorial we will get the data from the FTP site and and store it on our machine."
   },
   {
     "objectID": "02-part-2.html",
