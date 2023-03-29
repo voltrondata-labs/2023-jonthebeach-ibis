@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>J On The Beach - Larger Than Memory Data Workflows with Apache Arrow and Ibis</title>
+<title>J On The Beach - Part 4 – Using Ibis With SnowflakeDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -85,7 +85,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page">
+    <a class="nav-link" href="./index.html">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -107,18 +107,10 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#abstract" id="toc-abstract" class="nav-link active" data-scroll-target="#abstract">Abstract</a></li>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a>
+  <li><a href="#working-with-remote-data" id="toc-working-with-remote-data" class="nav-link active" data-scroll-target="#working-with-remote-data">Working with Remote Data</a>
   <ul class="collapse">
-  <li><a href="#ice-breaking-activity" id="toc-ice-breaking-activity" class="nav-link" data-scroll-target="#ice-breaking-activity">Ice-Breaking Activity</a></li>
-  <li><a href="#what-youll-learn" id="toc-what-youll-learn" class="nav-link" data-scroll-target="#what-youll-learn">What You’ll Learn</a></li>
-  <li><a href="#demonstration" id="toc-demonstration" class="nav-link" data-scroll-target="#demonstration">Demonstration</a></li>
-  </ul></li>
-  <li><a href="#overview-of-the-training" id="toc-overview-of-the-training" class="nav-link" data-scroll-target="#overview-of-the-training">Overview of the Training</a></li>
-  <li><a href="#presentation-of-the-dataset" id="toc-presentation-of-the-dataset" class="nav-link" data-scroll-target="#presentation-of-the-dataset">Presentation of the dataset</a>
-  <ul class="collapse">
-  <li><a href="#what-is-pums" id="toc-what-is-pums" class="nav-link" data-scroll-target="#what-is-pums">What is PUMS?</a></li>
-  <li><a href="#the-dataset" id="toc-the-dataset" class="nav-link" data-scroll-target="#the-dataset">The dataset</a></li>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link" data-scroll-target="#learning-objectives">Learning objectives</a></li>
+  <li><a href="#introduction-to-snowflake" id="toc-introduction-to-snowflake" class="nav-link" data-scroll-target="#introduction-to-snowflake">Introduction to Snowflake</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -128,7 +120,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Larger Than Memory Data Workflows with Apache Arrow and Ibis</h1>
+<h1 class="title">Part 4 – Using Ibis With SnowflakeDB</h1>
 </div>
 
 
@@ -144,91 +136,18 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>This the website for the workshop “Larger Than Memory Data Workflows with Apache Arrow and Ibis” taught at the J on The Beach conference on May 10th, 2023.</p>
-<section id="abstract" class="level2">
-<h2 class="anchored" data-anchor-id="abstract">Abstract</h2>
-<p>As datasets become larger and more complex, the boundaries between data engineering and data science are becoming blurred. Data analysis pipelines with larger-than-memory data are becoming commonplace, creating a gap that needs to be bridged: between engineering tools designed to work with very large datasets on the one hand, and data science tools that provide the analysis capabilities used in data workflows on the other. One way to build this bridge is with Apache Arrow, a multi-language toolbox for working with larger-than-memory tabular data. Arrow is designed to improve performance and efficiency, and places emphasis on standardization and interoperability among workflow components, programming languages, and systems. We’ll combine the power of Arrow for compressing data into its most compact form with Ibis for data analysis in Python. Ibis is a pandas-like, Python interface that allows you to do robust analytics work on data of any size. It does this by letting you choose from a range of powerful database engines that can process your data queries. In this workshop we’ll be working with a very large dataset and drawing insights from it all from our local machine.</p>
-</section>
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<section id="ice-breaking-activity" class="level3">
-<h3 class="anchored" data-anchor-id="ice-breaking-activity">Ice-Breaking Activity</h3>
-<p>Type in the chat:</p>
+<section id="working-with-remote-data" class="level2">
+<h2 class="anchored" data-anchor-id="working-with-remote-data">Working with Remote Data</h2>
+<section id="learning-objectives" class="level3">
+<h3 class="anchored" data-anchor-id="learning-objectives">Learning objectives</h3>
 <ul>
-<li>what you know about Apache Arrow in one sentence</li>
-<li>what you know about Ibis in one sentence</li>
+<li>Connect to Snowflake database</li>
+<li>Show how code from previous tutorial can be reused with different backend</li>
+<li>Make a table and convert it into a local parquet file.</li>
 </ul>
 </section>
-<section id="what-youll-learn" class="level3">
-<h3 class="anchored" data-anchor-id="what-youll-learn">What You’ll Learn</h3>
-<p>By the end of this tutorial you will learn:</p>
-<ul>
-<li>How to access and convert large CSV files into Parquet using Apache Arrow</li>
-<li>How changing CSV files into parquet compresses them efficiently letting you work with them on your local machine</li>
-<li>How to analyse larger than memory parquet files using Ibis</li>
-<li>How to drawing interesting insights from the PUMS census dataset efficiently</li>
-<li>How to switch between and local and remote database using Ibis</li>
-</ul>
-</section>
-<section id="demonstration" class="level3">
-<h3 class="anchored" data-anchor-id="demonstration">Demonstration</h3>
-<p>Demonstration of what the training is working towards that shows the power of Arrow to work with large datasets. This should be live coded but not take more than 5 min.</p>
-<p>Specifics: - Show graph examples of data compression from turning file from CSV to Parquet Using Arrow. - Show one example of trying to read the parquet file using pandas (this should break.) Then show and example of reading the parquet file in with Ibis.</p>
-</section>
-</section>
-<section id="overview-of-the-training" class="level2">
-<h2 class="anchored" data-anchor-id="overview-of-the-training">Overview of the Training</h2>
-<ul>
-<li>Importing data in the Apache Arrow ecosystems, what are the different file formats, how do they differ, which ones to use?</li>
-<li>Learning how to use Ibis for data wrangling on Parquet files</li>
-<li>Use Ibis with remote data sources: Snowflake (demo to try at home)</li>
-</ul>
-</section>
-<section id="presentation-of-the-dataset" class="level2">
-<h2 class="anchored" data-anchor-id="presentation-of-the-dataset">Presentation of the dataset</h2>
-<section id="what-is-pums" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-pums">What is PUMS?</h3>
-<p>The Public Use Microdata Sample (PUMS) dataset is a subsample of the American Community Survey (ACS) interviews done on one percent of all US households. It is a detailed collection of information including demographic, housing, and economic characteristics. It is collected by the U.S. Census Bureau as part of the decennial census and is made available to the public for research and analysis. However, due to its large size, analyzing the PUMS dataset is difficult. Today, we will show you how it is possible to wrangle it with just a couple of tools.</p>
-<p>Some characteristics of PUMS:</p>
-<ul>
-<li>Public Use: data is anonymized and downloadable</li>
-<li>Microdata: records of individual people</li>
-<li>Sample: a representative sample of the population</li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="whatispums.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">from census.gov</figcaption><p></p>
-</figure>
-</div>
-<p>The ACS typically produces 1-, and 5-year PUMS files that they make available as SAS and CSV files <a href="https://www.census.gov/programs-surveys/acs/microdata/access.2021.html#list-tab-735824205">here</a>.</p>
-</section>
-<section id="the-dataset" class="level3">
-<h3 class="anchored" data-anchor-id="the-dataset">The dataset</h3>
-<p>In this tutorial we will be using data from the <a href="https://www.census.gov/programs-surveys/acs/microdata/access.2020.html#list-tab-735824205">PUMS 2016-2020 ACS 5 year dataset</a>. We will be accessing these PUMS files through the File Transfer Protocol (FTP) website.</p>
-<p>The 2020 ACS 5-year PUMS dataset contains a set of two file types:</p>
-<ul>
-<li>housing records</li>
-<li>person records</li>
-</ul>
-<p>These records represent the fact that PUMS is divided into data about people and data about households. Person data is named <code>psam_p**.csv</code>, and household data is named <code>psam_h**.csv</code>.</p>
-<p>Each file contains over 234 columns, and you can find the column name and the question that was asked to retrieve the information in the <a href="https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2016-2020.pdf">PUMS Data Dictionary</a>.</p>
-<p>For this tutorial we are specifically interested in the following columns from the 2 tables.</p>
-<p>The 2 Tables:</p>
-<ul>
-<li><strong>psam_p</strong>.csv (most specialized) (153 MB)**:
-<ul>
-<li>HINCP: household income for the past 12 months</li>
-<li>ST: a list of numbers, corresponding to the various US states (alphabetized)</li>
-</ul></li>
-<li><strong>psam_p</strong>.csv (most specialized) (153 MB)**:
-<ul>
-<li>WAGP: person income or wages for the past 12 months</li>
-<li>AGEP: person age</li>
-</ul></li>
-</ul>
-<p>More dataset info: <a href="https://www.census.gov/programs-surveys/acs/microdata/documentation.2020.html#list-tab-1370939201">https://www.census.gov/programs-surveys/acs/microdata/documentation.2020.html#list-tab-1370939201</a></p>
-<p>Data source (FTP): <a href="https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/">https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/</a></p>
-<p>In Part 1 of this tutorial we will get the data from the FTP site and and store it on our machine.</p>
+<section id="introduction-to-snowflake" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-to-snowflake">Introduction to Snowflake</h3>
 
 
 </section>
