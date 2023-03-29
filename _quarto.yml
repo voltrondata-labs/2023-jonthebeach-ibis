@@ -20,10 +20,10 @@ website:
 format:
   html:
     include-in-header:
-      - fonts.html
+      - assets/theme/fonts.html
     theme:
       - default
-      - vd-theme.scss
+      - assets/theme/vd-theme.scss
     toc: true
 
 
