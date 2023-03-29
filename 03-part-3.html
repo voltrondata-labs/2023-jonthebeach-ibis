@@ -210,6 +210,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <p>This the website for the workshop “Larger Than Memory Data Workflows with Apache Arrow and Ibis” taught at the J on The Beach conference on May 10th, 2023.</p>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning objectives
+</div>
+</div>
+<div class="callout-body-container callout-body">
+
+</div>
+</div>
 <section id="introduction-to-ibis" class="level3">
 <h3 class="anchored" data-anchor-id="introduction-to-ibis">Introduction to Ibis</h3>
 <p>In this part of the training, we want to do some analytics work to get insights from the data. To do this we will be using Ibis.</p>
@@ -244,17 +257,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="owner-and-renter-occupied-housing-by-age">Owner and Renter Occupied Housing by Age</h3>
 <p>For this first part of the tutorial we will specifically be using the <code>TEN</code> and <code>HHLDRAGEP</code> columns to create a graph that shows owner and renter occupied housing by age.</p>
 <p>Here are the questions asked to get the data for these columns:</p>
-<pre class="{text}"><code>TEN Character 1
-Tenure
-b .N/A (GQ/vacant)
-1 .Owned with mortgage or loan (include home equity loans)
-2 .Owned free and clear
-3 .Rented
-4 .Occupied without payment of rent</code></pre>
-<pre><code>HHLDRAGEP Numeric 2
-Age of the householder
-bb .N/A (GQ/vacant)
-15..99 .15 to 99 years (Top-coded)</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>TEN Character 1</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Tenure</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>b .N/A (GQ/vacant)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>1 .Owned with mortgage or loan (include home equity loans)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>2 .Owned free and clear</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>3 .Rented</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>4 .Occupied without payment of rent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>HHLDRAGEP Numeric 2</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Age of the householder</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bb .N/A (GQ/vacant)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>15..99 .15 to 99 years (Top-coded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We’ll start by grabbing the necessary columns, filtering out nulls and relabeling the columns names. Here’s the code to do this:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tenure_type <span class="op">=</span> (</span>
@@ -267,7 +280,19 @@ bb .N/A (GQ/vacant)
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    ))</span>
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>#Run this and print head of this table</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run this and print head of this table</p>
+</div>
+</div>
 <p>Next we’ll use <code>mutate</code> to add two new columns <code>tenure_type</code> and <code>age_group</code> to the table. These will be used to group the different types of home ownership and age groups into more clear categories using the <code>group_by</code> function.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tenure_type_age_group <span class="op">=</span> (</span>
@@ -352,7 +377,19 @@ bb .N/A (GQ/vacant)
 <span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>res.order_by(ibis.desc(_.prop))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>#run this code and show the resulting table.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Run this code and show the resulting table.</p>
+</div>
+</div>
 <p>Great work! For the last part of this tutorial we’ll switch to a remote database and answer a few more questions but using another backend.</p>
 
 
