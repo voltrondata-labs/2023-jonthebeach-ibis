@@ -17,7 +17,7 @@ Some characteristics of PUMS:
 - Microdata: records of individual people 
 - Sample: a representative sample of the population 
 
-![from census.gov](whatispums.png)
+![from census.gov](./assets/img/whatispums.png)
 
 The ACS typically produces 1-, and 5-year PUMS files that they make available as SAS and CSV files [here](https://www.census.gov/programs-surveys/acs/microdata/access.2021.html#list-tab-735824205). 
 

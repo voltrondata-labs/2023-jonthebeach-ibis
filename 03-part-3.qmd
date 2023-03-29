@@ -17,7 +17,7 @@ Ibis is a Python library that provides a lightweight, universal interface for da
 
 To do this, under the hood Ibis compiles and generates SQL for many backends, including MySQL, PostgresSQL, DuckDB, PySpark, and BigQuery, amongst others. Ibis currently supports 15 backends and counting!
 
-![Ibis backends](ibis-tree.png)
+![Ibis backends](./assets/img/ibis-tree.png)
   
 Additionally, with Ibis, the code used for queries is independent from the backend. If the data are moved to a different system (PostgreSQL, SQLite, Google BigQuery, etc...), the code will not need to be rewritten.
 

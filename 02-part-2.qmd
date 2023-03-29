@@ -21,7 +21,7 @@ May 10th, 2023.
 
 The U.S. Census provides the PUMS data in several ways. You can browse the data right on their [website](https://www.census.gov/programs-surveys/acs/microdata.html). But after selecting 10 variables (out of 522) we are met with a throttle limit on how much data we can select at a time.
 
-![https://www.census.gov/programs-surveys/acs/microdata.html](pums_website.png)
+![https://www.census.gov/programs-surveys/acs/microdata.html](./assets/img/pums_website.png)
 
 Luckily for us, census.gov also provides data via their FTP server. We'll be using the five-year data from 2020, found [here](https://www2.census.gov/programs-surveys/acs/data/pums/2020/). We may have already downloaded the data for you, check with your instructor! If this is the case skip to [this section](### Examining the data).
 
