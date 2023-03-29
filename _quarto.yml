@@ -8,6 +8,12 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: 02-part-2.qmd
+        text: Part 2
+      - href: 03-part-3.qmd
+        text: Part 3
+      - href: 04-part-4.qmd
+        text: Part 4
       - about.qmd
 
 format:
