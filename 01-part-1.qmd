@@ -53,8 +53,6 @@ More dataset info: [https://www.census.gov/programs-surveys/acs/microdata/docume
 
 Data source (FTP): [https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/](https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/)
 
- 
-
-In Part 1 of this tutorial we will get the data from the FTP site and and store it on our machine. 
+In Part 2 of this tutorial we will get the data from the FTP site and and store it on our machine.
 
 
