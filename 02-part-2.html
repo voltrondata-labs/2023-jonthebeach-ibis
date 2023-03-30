@@ -242,12 +242,13 @@ Learning objectives
 <p></p><figcaption class="figure-caption">https://www.census.gov/programs-surveys/acs/microdata.html</figcaption><p></p>
 </figure>
 </div>
-<p>Luckily for us, census.gov also provides data via their FTP server. We’ll be using the five-year data from 2020, found <a href="https://www2.census.gov/programs-surveys/acs/data/pums/2020/">here</a>. We may have already downloaded the data for you, check with your instructor! If this is the case skip to <a href="###%20Examining%20the%20data">this section</a>.</p>
+<p>Luckily for us, census.gov also provides data via their FTP server. We’ll be using the five-year data from 2020, found <a href="https://www2.census.gov/programs-surveys/acs/data/pums/2020/">here</a>.</p>
+<p>We may have already downloaded the data for you, check with your instructor! If this is the case skip to <a href="#examining-the-data">this section</a>.</p>
 </section>
 <section id="downloading-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="downloading-the-data">Downloading the Data</h3>
-<p>You can download the data in CSV format using this <a href="https://www.notion.so/Scaling-Down-The-Python-Libraries-You-Need-to-Compress-and-Analyze-the-PUMS-Dataset-4bbb069c4a7843a79455a628775a1b65">FTP link</a>. To do this use your preferred tool, such as <code>wget</code> or <code>aria2</code>.</p>
-<p>As an example, here’s how to download the data using wget on a Mac. Run the following lines in your terminal, to retrieve and then unzip the data:</p>
+<p>You can download the data in CSV format using this FTP URL: ftp://ftp.census.gov/programs-surveys/acs/data/pums/2020/5-Year/. To do this use your preferred tool, such as <code>wget</code> or <code>aria2</code>.</p>
+<p>As an example, here’s how to download the data using <code>wget</code> on a Mac. Run the following lines in your terminal, to retrieve and then unzip the data:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># use wget or your ftp retrieval method of choice </span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> <span class="at">--recursive</span> <span class="at">-w</span> 2 <span class="at">-nc</span> <span class="at">--level</span><span class="op">=</span>1 <span class="at">--no-parent</span> <span class="at">--no-directories</span> <span class="dt">\</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">--accept</span> <span class="st">'csv*'</span> <span class="at">--reject</span> <span class="st">'*pus*'</span> <span class="at">--reject</span> <span class="st">'*hus*'</span> <span class="dt">\</span></span>
@@ -257,32 +258,41 @@ Learning objectives
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># unizp the files, feel free to use your method of choice </span></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span> <span class="pp">*</span>.zip</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The PUMS dataset is divided into data about people and data about households. After unzipping the files, we’ll divide the five-year set into person-focused and housing-focused data.</p>
-<p>Person data can be identified by the naming pattern psam_p<em>.csv, while housing data has the pattern psam_h</em>.csv. From there, you can just use globbing to move them where you want them — the example below will work on Mac and Linux.</p>
+<p>Person data can be identified by the naming pattern <code>psam_p*.csv</code>, while housing data has the pattern <code>psam_h*.csv</code>. From there, you can just use globbing to move them where you want them — the example below will work on Mac and Linux.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> housing</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> people</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> psam_h<span class="pp">*</span> ./household/</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> psam_p<span class="pp">*</span> ./people/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> psam_h<span class="pp">*</span>.csv ./household/</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> psam_p<span class="pp">*</span>.csv ./people/</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="examining-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="examining-the-data">Examining the Data</h3>
 <p>Once this is done, you should now have two directories full of CSV data that make up approximately 14.13 GB.</p>
-<section id="activity" class="level5">
-<h5 class="anchored" data-anchor-id="activity">Activity:</h5>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Activity
+</div>
+</div>
+<div class="callout-body-container callout-body">
 <ul>
-<li>Check the size of the two directories on your machine!</li>
-<li>Are they also 14GB?</li>
+<li>Check the size of the two directories on your machine, are they also 14GB?</li>
 </ul>
-<p>14 GB is far too big for a desktop environment, and there are too many files in each directory to wrangle efficiently.</p>
-<p>In our workshop today we’ll convert the CSV’s to just two Parquet files (one for household, and one for person data.) This will compress the data down to 4 GB! To do this we’ll use the Python library Apache Arrow.</p>
-</section>
+</div>
+</div>
+<p>14 GB is far too big for a desktop environment, you will run out of RAM working with this data. Additionally, there are too many files in each directory to wrangle efficiently.</p>
+<p>In our workshop today we’ll convert the CSV files into two Parquet files: one for the household data, and one for person data. This will compress the data down to 4 GB! The Python Library <code>PyArrow</code> is well suited for this task.</p>
 </section>
 <section id="introduction-to-apache-arrow" class="level3">
 <h3 class="anchored" data-anchor-id="introduction-to-apache-arrow">Introduction to Apache Arrow</h3>
+<p>[In this section we need more info about Arrow and Parquet]</p>
 <p>Before we move further here are a few things to know about Arrow:</p>
 <ul>
 <li>It is a columnar data-format and a standard.</li>
 <li>It can be used to convert one format to another</li>
-<li>There are many flavors of Arrow, the Python version, which we will use today is <code>PyArrow</code>.</li>
+<li>Many programming languages have their own library to work with Arrow. We are using <code>PyArrow</code> today, but others exist for C++, Go, R, Rust, etc.</li>
 </ul>
 <p>Let’s import PyArrow and the specific methods we need:</p>
 <div class="cell" data-execution_count="1">
@@ -291,15 +301,16 @@ Learning objectives
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pyarrow.dataset <span class="im">as</span> ds</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, we need a view of the data — we’ll use PyArrow’s dataset functionality to do this.</p>
-<p>A view does not read any data into memory. We also exclude invalid files.</p>
+<p>A view does not read any data into memory.</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this line takes all the csvs files in the folder and adds them to the</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># same dataset. It excludes pdf files.</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This line takes all the csvs files in the folder and adds them to the</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># same dataset.</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>people_dataset <span class="op">=</span> ds.dataset(<span class="st">"./people"</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>, exclude_invalid_files<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>house_dataset <span class="op">=</span> ds.dataset(<span class="st">"./household"</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>, exclude_invalid_files<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>people_dataset <span class="op">=</span> ds.dataset(<span class="st">"./people"</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>house_dataset <span class="op">=</span> ds.dataset(<span class="st">"./household"</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Due to a quirk of the dataset, it is possible for inference to read a couple of variables as numeric when they are strings in later rows. To handle this, we will redefine the schema and make a new view. This is a cheap operation because we haven’t read any data yet, only set up a view that’s aware of the files.</p>
+<p>Contrary to CSV files, arrow datasets are typed. When using the default options, the data types are inferred by reading a subset of the data to guess the types. However, with large datasets, it can happen that a variable is detected as being numeric when it contains strings outside the range used to infer the data type.</p>
+<p>To handle this, we will redefine the schema and make a new view. This is a cheap operation because we haven’t read any data yet, only set up a view that’s aware of the files.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the person data schema   </span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>people_schema <span class="op">=</span> people_dataset.schema.<span class="bu">set</span>(<span class="dv">1</span>, pa.field(<span class="st">"SERIALNO"</span>, pa.string()))</span>
@@ -309,9 +320,9 @@ Learning objectives
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>house_schema <span class="op">=</span> house_dataset.schema.<span class="bu">set</span>(<span class="dv">1</span>, pa.field(<span class="st">"SERIALNO"</span>, pa.string()))</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Update views with new schemas </span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>people_dataset <span class="op">=</span> ds.dataset(<span class="st">'./people'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>, exclude_invalid_files<span class="op">=</span><span class="va">True</span>, schema<span class="op">=</span>people_schema)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>people_dataset <span class="op">=</span> ds.dataset(<span class="st">'./people'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>, schema<span class="op">=</span>people_schema)</span>
 <span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>house_dataset <span class="op">=</span> ds.dataset(<span class="st">'./household'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>, exclude_invalid_files<span class="op">=</span><span class="va">True</span>, schema<span class="op">=</span>house_schema)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>house_dataset <span class="op">=</span> ds.dataset(<span class="st">'./household'</span>, <span class="bu">format</span><span class="op">=</span><span class="st">"csv"</span>, schema<span class="op">=</span>house_schema)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, we write to Parquet. This can take a while, as it’s only now that PyArrow fully reads the data.</p>
 <div class="cell" data-execution_count="4">
