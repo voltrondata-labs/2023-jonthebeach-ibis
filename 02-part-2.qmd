@@ -24,17 +24,29 @@ May 10th, 2023.
 
 ### The PUMS Dataset
 
-The U.S. Census provides the PUMS data in several ways. You can browse the data right on their [website](https://www.census.gov/programs-surveys/acs/microdata.html). But after selecting 10 variables (out of 522) we are met with a throttle limit on how much data we can select at a time.
+The U.S. Census provides the PUMS data in several ways. You can browse the data
+right on their
+[website](https://www.census.gov/programs-surveys/acs/microdata.html). But after
+selecting 10 variables (out of 522) we are met with a throttle limit on how much
+data we can select at a time.
 
 ![https://www.census.gov/programs-surveys/acs/microdata.html](./assets/img/pums_website.png)
 
-Luckily for us, census.gov also provides data via their FTP server. We'll be using the five-year data from 2020, found [here](https://www2.census.gov/programs-surveys/acs/data/pums/2020/). We may have already downloaded the data for you, check with your instructor! If this is the case skip to [this section](### Examining the data).
+Luckily for us, census.gov also provides data via their FTP server. We'll be
+using the five-year data from 2020, found
+[here](https://www2.census.gov/programs-surveys/acs/data/pums/2020/).
+
+We may have already downloaded the data for you, check with your instructor! If
+this is the case skip to [this section](#examining-the-data).
 
 ### Downloading the Data
 
-You can download the data in CSV format using this [FTP link](https://www.notion.so/Scaling-Down-The-Python-Libraries-You-Need-to-Compress-and-Analyze-the-PUMS-Dataset-4bbb069c4a7843a79455a628775a1b65). To do this use your preferred tool, such as `wget` or `aria2`.
+You can download the data in CSV format using this FTP
+URL: ftp://ftp.census.gov/programs-surveys/acs/data/pums/2020/5-Year/.
+To do this use your preferred tool, such as `wget` or `aria2`.
 
-As an example, here's how to download the data using wget on a Mac. Run the following lines in your terminal, to retrieve and then unzip the data:
+As an example, here's how to download the data using `wget` on a Mac. Run the
+following lines in your terminal, to retrieve and then unzip the data:
 
 ```bash
 # use wget or your ftp retrieval method of choice 
@@ -47,38 +59,51 @@ wget --recursive -w 2 -nc --level=1 --no-parent --no-directories \
 unzip *.zip
 ```
 
-The PUMS dataset is divided into data about people and data about households. After unzipping the files, we’ll divide the five-year set into person-focused and housing-focused data. 
+The PUMS dataset is divided into data about people and data about households.
+After unzipping the files, we’ll divide the five-year set into person-focused
+and housing-focused data.
 
-Person data can be identified by the naming pattern psam\_p*.csv, while housing data has the pattern psam\_h*.csv. From there, you can just use globbing to move them where you want them — the example below will work on Mac and Linux.
+Person data can be identified by the naming pattern `psam_p*.csv`, while housing
+data has the pattern `psam_h*.csv`. From there, you can just use globbing to move
+them where you want them — the example below will work on Mac and Linux.
 
 ```bash
 mkdir housing
 mkdir people
-mv psam_h* ./household/
-mv psam_p* ./people/
+mv psam_h*.csv ./household/
+mv psam_p*.csv ./people/
 ```
 
 ### Examining the Data 
 
 Once this is done, you should now have two directories full of CSV data that make up approximately 14.13 GB. 
 
-##### Activity: 
- - Check the size of the two directories on your machine! 
- - Are they also 14GB? 
+::: {.callout-note}
+## Activity
 
-14 GB is far too big for a desktop environment, and there are too many files in each directory to wrangle efficiently.  
+ - Check the size of the two directories on your machine, are they also 14GB? 
+:::
 
-In our workshop today we'll convert the CSV’s to just two Parquet files (one for household, and one for person data.) This will compress the data down to 4 GB! To do this we'll use the Python library Apache Arrow. 
+14 GB is far too big for a desktop environment, you will run out of RAM working with this data.
+Additionally, there are too many files in each directory to wrangle efficiently.  
+
+In our workshop today we'll convert the CSV files into two Parquet files: one
+for the household data, and one for person data. This will compress the data
+down to 4 GB! The Python Library `PyArrow` is well suited for this task.
 
 ### Introduction to Apache Arrow 
+
+[In this section we need more info about Arrow and Parquet]
 
 Before we move further here are a few things to know about Arrow: 
 
 - It is a columnar data-format and a standard.
 - It can be used to convert one format to another
-- There are many flavors of Arrow, the Python version, which we will use today is `PyArrow`.
+- Many programming languages have their own library to work with Arrow. We are
+  using `PyArrow` today, but others exist for C++, Go, R, Rust, etc.
 
 Let's import PyArrow and the specific methods we need:
+
 ```{python}
 import pyarrow as pa
 from pyarrow import parquet
@@ -87,16 +112,24 @@ import pyarrow.dataset as ds
 
 Now, we need a view of the data — we’ll use PyArrow’s dataset functionality to do this. 
 
-A view does not read any data into memory. We also exclude invalid files. 
-```{python}
-# this line takes all the csvs files in the folder and adds them to the
-# same dataset. It excludes pdf files.
+A view does not read any data into memory.
 
-people_dataset = ds.dataset("./people", format="csv", exclude_invalid_files=True)
-house_dataset = ds.dataset("./household", format="csv", exclude_invalid_files=True)
+```{python}
+# This line takes all the csvs files in the folder and adds them to the
+# same dataset.
+
+people_dataset = ds.dataset("./people", format="csv")
+house_dataset = ds.dataset("./household", format="csv")
 ```
 
-Due to a quirk of the dataset, it is possible for inference to read a couple of variables as numeric when they are strings in later rows. To handle this, we will redefine the schema and make a new view. This is a cheap operation because we haven’t read any data yet, only set up a view that’s aware of the files. 
+Contrary to CSV files, arrow datasets are typed. When using the default options,
+the data types are inferred by reading a subset of the data to guess the types.
+However, with large datasets, it can happen that a variable is detected as being
+numeric when it contains strings outside the range used to infer the data type.
+
+To handle this, we will redefine the schema and make a new view. This is a cheap
+operation because we haven’t read any data yet, only set up a view that’s aware
+of the files.
 
 ```{python}
 # Adjust the person data schema   
@@ -107,9 +140,9 @@ people_schema = people_schema.set(75, pa.field("WKWN", pa.string()))
 house_schema = house_dataset.schema.set(1, pa.field("SERIALNO", pa.string()))
 
 #Update views with new schemas 
-people_dataset = ds.dataset('./people', format="csv", exclude_invalid_files=True, schema=people_schema)
+people_dataset = ds.dataset('./people', format="csv", schema=people_schema)
 
-house_dataset = ds.dataset('./household', format="csv", exclude_invalid_files=True, schema=house_schema)
+house_dataset = ds.dataset('./household', format="csv", schema=house_schema)
 ```
 
 Now, we write to Parquet. This can take a while, as it’s only now that PyArrow fully reads the data.
