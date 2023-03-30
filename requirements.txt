@@ -1,0 +1,2 @@
+jupyter>=3.14
+ibis-framework>=5.0

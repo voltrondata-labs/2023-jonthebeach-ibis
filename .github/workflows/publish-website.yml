@@ -19,7 +19,6 @@ jobs:
         with:
           python-version: 3.11
           cache: 'pip'
-      - run: pip install jupyter
         
       # add software dependencies here
       
