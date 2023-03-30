@@ -1,5 +1,7 @@
 project:
   type: website
+  resources:
+    - "data/*"
 
 website:
   title: "J On The Beach"
