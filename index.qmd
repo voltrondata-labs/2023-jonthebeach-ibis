@@ -67,3 +67,6 @@ Specifics:
 * Learning how to use Ibis for data wrangling on Parquet files
 * Use Ibis with remote data sources: Snowflake (demo to try at home)
 
+
+
+![Diagram showing the components that will be covered during the workshop.](./assets/img/overview-workshop.svg){fig-alt="Diagram showing the components that will be covered during the workshop. We will use PyArrow to convert CSV files into Parquet. We will use Ibis to query the data in the Parquet format. We will also use Ibis to query the data stored in Snowflake."}
