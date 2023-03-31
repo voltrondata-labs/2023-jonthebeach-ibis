@@ -11,6 +11,9 @@ May 10th, 2023.
 ::: {.callout-tip}
 ## Learning objectives
 
+* Explain the value of Ibis for data analysis
+* Write data queries using Ibis to get insight from data
+* Apply chaining to combine operations
 :::
 
 
@@ -26,9 +29,9 @@ To do this, under the hood Ibis compiles and generates SQL for many backends, in
   
 Additionally, with Ibis, the code used for queries is independent from the backend. If the data are moved to a different system (PostgreSQL, SQLite, Google BigQuery, etc...), the code will not need to be rewritten.
 
-Ibis has excellent `read_csv` and `read_parquet` functions that can let you access and analyze data quickly! These methods use DuckDB as their default and will be what we'll start with today. 
+Ibis has excellent `read_csv` and `read_parquet` functions that can let you access and analyze data quickly! These methods use the DuckDB engine as their default and will be what we'll start with today. 
 
-Later you will work with files stored remotely in SnowkflakeDB to see how to switch between backends. 
+Later you will work with data stored remotely in Snowkflake to see how to switch between backends. 
 
 ### Analysing the Data
 
@@ -42,7 +45,7 @@ ibis.options.interactive = True
 import matplotlib.pyplot as plt
 
 
-household = ibis.read_parquet("partitioned_household/*/*.parquet",
+household = ibis.read_parquet("pums_household/*/*.parquet",
                               hive_partitioning=True)
 
 ```
@@ -59,18 +62,18 @@ Here are the questions asked to get the data for these columns:
 ```default
 TEN Character 1
 Tenure
-b .N/A (GQ/vacant)
-1 .Owned with mortgage or loan (include home equity loans)
-2 .Owned free and clear
-3 .Rented
-4 .Occupied without payment of rent
+b. N/A (GQ/vacant)
+1. Owned with mortgage or loan (include home equity loans)
+2. Owned free and clear
+3. Rented
+4. Occupied without payment of rent
 ```
 
 ```default
 HHLDRAGEP Numeric 2
 Age of the householder
-bb .N/A (GQ/vacant)
-15..99 .15 to 99 years (Top-coded)
+bb. N/A (GQ/vacant)
+15..99. 15 to 99 years (Top-coded)
 ```
 
 We'll start by grabbing the necessary columns, filtering out nulls and relabeling the columns names. Here's the code to do this: 
@@ -92,7 +95,14 @@ Run this and print head of this table
 :::
 
 
-Next we'll use `mutate` to add two new columns `tenure_type` and `age_group` to the table. These will be used to group the different types of home ownership and age groups into more clear categories using the `group_by` function.
+Next we'll use `mutate` to add two new columns `tenure_type` and `age_group` to the table. These will be used to:
+
+1. recode the different types of home ownership, and;
+2. bin the householder ages into groups.
+
+This operation will allow us to have clearer categories when using the
+`group_by` function to calculate the number of people in each group.
+
 ```{python}
 tenure_type_age_group = (
     tenure_type
@@ -120,7 +130,8 @@ tenure_type_age_group = (
 )
 ```
 
-Finally we'll use plotnine (the Python version of ggplot) to display render the graph
+Finally we'll use plotnine (the Python version of ggplot) to render the graph:
+
 ```{python}
 pdttag = tenure_type_age_group.to_pyarrow().to_pandas()
 pdttag['age_group'] = pd.Categorical(pdttag['age_group'], ordered=True,
