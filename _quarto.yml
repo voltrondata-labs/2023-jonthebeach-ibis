@@ -5,6 +5,7 @@ project:
 
 website:
   title: "J On The Beach"
+  favicon: "/assets/img/favicon.ico"
   navbar:
     logo: "/assets/img/voltron-data-logo.svg"
     left:
