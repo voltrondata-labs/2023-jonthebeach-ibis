@@ -93,6 +93,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href=".//assets/img/favicon.ico" rel="icon">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -220,7 +221,11 @@ Learning objectives
 </div>
 </div>
 <div class="callout-body-container callout-body">
-
+<ul>
+<li>Explain the value of Ibis for data analysis</li>
+<li>Write data queries using Ibis to get insight from data</li>
+<li>Apply chaining to combine operations</li>
+</ul>
 </div>
 </div>
 <section id="introduction-to-ibis" class="level3">
@@ -235,8 +240,8 @@ Learning objectives
 </figure>
 </div>
 <p>Additionally, with Ibis, the code used for queries is independent from the backend. If the data are moved to a different system (PostgreSQL, SQLite, Google BigQuery, etc…), the code will not need to be rewritten.</p>
-<p>Ibis has excellent <code>read_csv</code> and <code>read_parquet</code> functions that can let you access and analyze data quickly! These methods use DuckDB as their default and will be what we’ll start with today.</p>
-<p>Later you will work with files stored remotely in SnowkflakeDB to see how to switch between backends.</p>
+<p>Ibis has excellent <code>read_csv</code> and <code>read_parquet</code> functions that can let you access and analyze data quickly! These methods use the DuckDB engine as their default and will be what we’ll start with today.</p>
+<p>Later you will work with data stored remotely in Snowkflake to see how to switch between backends.</p>
 </section>
 <section id="analysing-the-data" class="level3">
 <h3 class="anchored" data-anchor-id="analysing-the-data">Analysing the Data</h3>
@@ -248,7 +253,7 @@ Learning objectives
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>household <span class="op">=</span> ibis.read_parquet(<span class="st">"partitioned_household/*/*.parquet"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>household <span class="op">=</span> ibis.read_parquet(<span class="st">"pums_household/*/*.parquet"</span>,</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                              hive_partitioning<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><code>household</code> is now an Ibis table that you can query in a similar way that you would a pandas dataframe. PUMS contains a very long list of columns and the column names are not very intuitive. You can find the full list of columns, they’re names and the data they contain here.</p>
@@ -259,15 +264,15 @@ Learning objectives
 <p>Here are the questions asked to get the data for these columns:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>TEN Character 1</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>Tenure</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>b .N/A (GQ/vacant)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>1 .Owned with mortgage or loan (include home equity loans)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>2 .Owned free and clear</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>3 .Rented</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>4 .Occupied without payment of rent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>b. N/A (GQ/vacant)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>1. Owned with mortgage or loan (include home equity loans)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>2. Owned free and clear</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>3. Rented</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>4. Occupied without payment of rent</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="sourceCode" id="cb3"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>HHLDRAGEP Numeric 2</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>Age of the householder</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bb .N/A (GQ/vacant)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>15..99 .15 to 99 years (Top-coded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bb. N/A (GQ/vacant)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>15..99. 15 to 99 years (Top-coded)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>We’ll start by grabbing the necessary columns, filtering out nulls and relabeling the columns names. Here’s the code to do this:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tenure_type <span class="op">=</span> (</span>
@@ -293,7 +298,12 @@ Note
 <p>Run this and print head of this table</p>
 </div>
 </div>
-<p>Next we’ll use <code>mutate</code> to add two new columns <code>tenure_type</code> and <code>age_group</code> to the table. These will be used to group the different types of home ownership and age groups into more clear categories using the <code>group_by</code> function.</p>
+<p>Next we’ll use <code>mutate</code> to add two new columns <code>tenure_type</code> and <code>age_group</code> to the table. These will be used to:</p>
+<ol type="1">
+<li>recode the different types of home ownership, and;</li>
+<li>bin the householder ages into groups.</li>
+</ol>
+<p>This operation will allow us to have clearer categories when using the <code>group_by</code> function to calculate the number of people in each group.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>tenure_type_age_group <span class="op">=</span> (</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    tenure_type</span>
@@ -320,7 +330,7 @@ Note
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    .count()</span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Finally we’ll use plotnine (the Python version of ggplot) to display render the graph</p>
+<p>Finally we’ll use plotnine (the Python version of ggplot) to render the graph:</p>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pdttag <span class="op">=</span> tenure_type_age_group.to_pyarrow().to_pandas()</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pdttag[<span class="st">'age_group'</span>] <span class="op">=</span> pd.Categorical(pdttag[<span class="st">'age_group'</span>], ordered<span class="op">=</span><span class="va">True</span>,</span>
