@@ -198,7 +198,8 @@ no_internet_households_by_state = (
 )
 ```
 
-Then, we will tally up the 
+Then, we will tally up the total number of households with children under 15 for
+each state:
 
 ```{python}
 
@@ -211,7 +212,9 @@ total_households_by_state = (
 
 ```
 
-Let's now return the proportion of the houses in specific states that fall into the data group we've just decribed. 
+We can now return the proportion of the houses with children that do not have
+internet access. We will also join the `pums_state` table which contains the
+names of each state so we can more easily interpret the results.
 
 ```{python}
 states = ibis.read_csv("pums_states.csv").mutate(pums_code = _.pums_code.cast('string'))
@@ -234,4 +237,5 @@ res.order_by(ibis.desc(_.prop))
 Run this code and show the resulting table.
 :::
 
-Great work! For the last part of this tutorial we'll switch to a remote database and answer a few more questions but using another backend. 
+Great work! For the last part of this tutorial we'll switch to a remote database
+and answer a few more questions but using another backend.
