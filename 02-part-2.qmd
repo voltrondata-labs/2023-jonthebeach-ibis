@@ -5,11 +5,6 @@ execute:
 jupyter: python3
 ---
 
-This the website for the workshop "Larger Than Memory Data Workflows
-with Apache Arrow and Ibis" taught at the J on The Beach conference on
-May 10th, 2023.
-
-
 ::: {.callout-tip}
 ## Learning objectives
 
@@ -33,8 +28,8 @@ data we can select at a time.
 ![https://www.census.gov/programs-surveys/acs/microdata.html](./assets/img/pums_website.png)
 
 Luckily for us, census.gov also provides data via their FTP server. We'll be
-using the five-year data from 2020, found
-[here](https://www2.census.gov/programs-surveys/acs/data/pums/2020/).
+using the five-year data from 2021, found
+[here](https://www2.census.gov/programs-surveys/acs/data/pums/2021/5-Year/).
 
 We may have already downloaded the data for you, check with your instructor! If
 this is the case skip to [this section](#examining-the-data).
@@ -42,7 +37,7 @@ this is the case skip to [this section](#examining-the-data).
 ### Downloading the Data
 
 You can download the data in CSV format using this FTP
-URL: ftp://ftp.census.gov/programs-surveys/acs/data/pums/2020/5-Year/.
+URL: ftp://ftp.census.gov/programs-surveys/acs/data/pums/2021/5-Year/.
 To do this use your preferred tool, such as `wget` or `aria2`.
 
 As an example, here's how to download the data using `wget` on a Mac. Run the
@@ -53,7 +48,7 @@ following lines in your terminal, to retrieve and then unzip the data:
 wget --recursive -w 2 -nc --level=1 --no-parent --no-directories \
      --accept 'csv*' --reject '*pus*' --reject '*hus*' \
      --directory-prefix=. \
-     ftp://ftp.census.gov/programs-surveys/acs/data/pums/2020/5-Year/
+     ftp://ftp.census.gov/programs-surveys/acs/data/pums/2021/5-Year/
 
 # unizp the files, feel free to use your method of choice 
 unzip *.zip
@@ -80,7 +75,6 @@ Once this is done, you should now have two directories full of CSV data that mak
 
 ::: {.callout-note}
 ## Activity
-
  - Check the size of the two directories on your machine, are they also 14GB? 
 :::
 
