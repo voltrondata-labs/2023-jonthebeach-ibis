@@ -53,7 +53,7 @@
     "href": "index.html#overview-of-the-training",
     "title": "Larger Than Memory Data Workflows with Apache Arrow and Ibis",
     "section": "Overview of the Training",
-    "text": "Overview of the Training\n\nImporting data in the Apache Arrow ecosystems, what are the different file formats, how do they differ, which ones to use?\nLearning how to use Ibis for data wrangling on Parquet files\nUse Ibis with remote data sources: Snowflake (demo to try at home)"
+    "text": "Overview of the Training\n\nImporting data in the Apache Arrow ecosystems, what are the different file formats, how do they differ, which ones to use?\nLearning how to use Ibis for data wrangling on Parquet files\nUse Ibis with remote data sources: Snowflake (demo to try at home)\n\n\n\n\nDiagram showing the components that will be covered during the workshop (black arrows). Ibis uses different engines to interact with the data (in orange). Dashed, gray arrows show things that are possible but not covered in the workshop."
   },
   {
     "objectID": "02-part-2.html",
