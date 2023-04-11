@@ -250,7 +250,7 @@ names of each state so we can more easily interpret the results.
 
 ```{python}
 #| eval: true
-states = ibis.read_csv("data/pums_states.csv").mutate(pums_code = _.pums_code.cast('string'))
+states = con.read_csv("data/pums_states.csv").mutate(pums_code = _.pums_code.cast('string')) # <1>
 
 res = (
     total_households_by_state
@@ -263,6 +263,9 @@ res = (
 
 res.order_by(ibis.desc(_.prop))
 ```
+1. We use `con.read_csv` here to be able to do the join. If we had used
+   `ibis.read_csv`, the 2 tables (`states` and `total_households_by_state`) would use
+   two different backends. It is not possible to join tables across different backends.
 
 ::: {.callout-note}
 ## Activity
