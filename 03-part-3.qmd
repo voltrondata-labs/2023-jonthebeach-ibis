@@ -2,6 +2,7 @@
 title: "Part 3 -- Data Wrangling with Ibis"
 execute:
   eval: false
+  cache: true
 jupyter: python3
 ---
 
@@ -35,11 +36,25 @@ Later you will work with data stored remotely in Snowkflake to see how to switch
 Let's now use Ibis to wrangle and analyse our data. We'll start by importing the dependencies we need and reading in the parquet files for the household data. 
 
 ```{python}
+#| eval: true
+#| echo: false
+
 import ibis
 from ibis import _
 ibis.options.interactive = True
 import pandas as pd
 from plotnine import ggplot, geom_line, aes
+
+con = ibis.duckdb.connect()
+household = con.read_parquet("s3://voltrondata-labs-datasets/2021-5year-pums-household/*/*.parquet", hive_partitioning=True)
+```
+
+
+```{python}
+import ibis
+from ibis import _
+ibis.options.interactive = True
+import matplotlib.pyplot as plt
 
 
 household = ibis.read_parquet("pums_household/*/*.parquet",
@@ -75,6 +90,7 @@ bb. N/A (GQ/vacant)
 We'll start by grabbing the necessary columns, filtering out nulls and relabeling the columns names. Here's the code to do this: 
 
 ```{python}
+#| eval: true
 tenure_type = (
     household
     .select('HHLDRAGEP', 'TEN')
@@ -84,6 +100,7 @@ tenure_type = (
         TEN="tenure_type",
     ))
 )
+tenure_type.head()
 ```
 
 ::: {.callout-note}
@@ -100,6 +117,7 @@ This operation will allow us to have clearer categories when using the
 `group_by` function to calculate the number of people in each group.
 
 ```{python}
+#| eval: true
 tenure_type_age_group = (
     tenure_type
     .mutate(
@@ -129,14 +147,15 @@ tenure_type_age_group = (
 Finally we'll use plotnine (the Python version of ggplot) to render the graph:
 
 ```{python}
+#| eval: true
+#| fig-cap: Tenure type by age group
 pdttag = tenure_type_age_group.to_pyarrow().to_pandas()
 pdttag['age_group'] = pd.Categorical(pdttag['age_group'], ordered=True,
                                      categories=['Under 25 years', '25 - 29', '30 - 34', '35 - 44',
                                                  '45 - 54', '55 - 64', '65 - 74', '75 years and older'])
 
-a = (ggplot(pdttag, aes('age_group', 'count', color = 'tenure_type'))
+(ggplot(pdttag, aes('age_group', 'count', color = 'tenure_type'))
  + geom_line(aes(group = 'tenure_type')))
-a.save('tenure_by_age_group.pdf', width=29.7, height=21, units='cm')
 ```
 
 ![](./assets/img/tenure_by_age.png)
@@ -163,10 +182,22 @@ house has an internet connection. The two datasets can be joined on the
 
 First, we'll start by finding the households that have children 15 years old or younger (`with_kids`).
 
-```{python}
+To answer this question, we'll start by finding the number of people with children under 15 years old. We'll also use `group_by` to get the total number of households per state. 
 
+```{python}
+#| eval: true
+#| echo: false
+person = con.read_parquet("s3://voltrondata-labs-datasets/2021-5year-pums-personal/*/*.parquet", hive_partitioning=True)
+```
+
+
+```{python}
 person = ibis.read_parquet("pums_people/*/*.parquet",
                            hive_partitioning=True)
+```
+
+```{python}
+#| eval: true
 
 with_kids = (
     person
@@ -186,6 +217,7 @@ only keep the households with no internet access represented with "3" in the
 `ACCESSINET` column.
 
 ```{python}
+#| eval: true
 no_internet_households_by_state = (
     household
     .join(with_kids, with_kids.SERIALNO == _.SERIALNO)
@@ -202,7 +234,7 @@ Then, we will tally up the total number of households with children under 15 for
 each state:
 
 ```{python}
-
+#| eval: true
 total_households_by_state = (
     with_kids
     .group_by('ST')
@@ -217,7 +249,9 @@ internet access. We will also join the `pums_state` table which contains the
 names of each state so we can more easily interpret the results.
 
 ```{python}
-states = ibis.read_csv("pums_states.csv").mutate(pums_code = _.pums_code.cast('string'))
+#| eval: true
+states = ibis.read_csv("data/pums_states.csv").mutate(pums_code = _.pums_code.cast('string'))
+
 res = (
     total_households_by_state
     .join(no_internet_households_by_state, no_internet_households_by_state.ST == total_households_by_state.ST)
@@ -228,7 +262,6 @@ res = (
 )
 
 res.order_by(ibis.desc(_.prop))
-
 ```
 
 ::: {.callout-note}
