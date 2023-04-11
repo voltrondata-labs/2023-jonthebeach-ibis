@@ -4,9 +4,6 @@ execute:
   eval: false
 jupyter: python3
 ---
-This the website for the workshop "Larger Than Memory Data Workflows
-with Apache Arrow and Ibis" taught at the J on The Beach conference on
-May 10th, 2023.
 
 ::: {.callout-tip}
 ## Learning objectives
@@ -38,16 +35,15 @@ Later you will work with data stored remotely in Snowkflake to see how to switch
 Let's now use Ibis to wrangle and analyse our data. We'll start by importing the dependencies we need and reading in the parquet files for the household data. 
 
 ```{python}
-
 import ibis
 from ibis import _
 ibis.options.interactive = True
-import matplotlib.pyplot as plt
+import pandas as pd
+from plotnine import ggplot, geom_line, aes
 
 
 household = ibis.read_parquet("pums_household/*/*.parquet",
                               hive_partitioning=True)
-
 ```
 
 `household` is now an Ibis table that you can query in a similar way that you would a pandas dataframe. PUMS contains a very long list of columns and the column names are not very intuitive. You can find the full list of columns, they're names and the data they contain here. 
@@ -140,29 +136,75 @@ pdttag['age_group'] = pd.Categorical(pdttag['age_group'], ordered=True,
 
 a = (ggplot(pdttag, aes('age_group', 'count', color = 'tenure_type'))
  + geom_line(aes(group = 'tenure_type')))
-a.save('ttt_age_group.pdf', width=29.7, height=21, units='cm')
-
+a.save('tenure_by_age_group.pdf', width=29.7, height=21, units='cm')
 ```
 
-#Run code to show the graph render 
+![](./assets/img/tenure_by_age.png)
+
+::: {.callout-note}
+## Activity
+
+Run code to show the graph render
+:::
 
 Hopefully, you got a similar graph to the one above. If you're having any issues let your instructor know! 
 
 ### Households with young children and no internet connection at home 
 
-Let's get more insights from our data! One qustion we can ask is 'how many households children younger than 15 do not have an internet connection at home in each state?'
+Let's get more insights from our data! One question we can ask is `What is the
+proportion of households with children younger than 15 do not have an internet
+connection at home in each state?'
 
-To answer this question, we'll start by finding the number of people with children under 15 years old. We'll also use `group_by` to get the total number of households per state. 
+To answer this question, we will need to use the data both from the `person` and
+the `housing` datasets. The `person` dataset has the age of all the respondants
+to the survey, while the `housing` dataset has the information about whether the
+house has an internet connection. The two datasets can be joined on the
+`SERIALNO` column.
+
+First, we'll start by finding the households that have children 15 years old or younger (`with_kids`).
+
 ```{python}
+
+person = ibis.read_parquet("pums_people/*/*.parquet",
+                           hive_partitioning=True)
+
 with_kids = (
     person
     .filter(_.AGEP <= 15)
-    .select(_.SERIALNO)
+    .select("SERIALNO", "ST")
     .distinct()
 )
 
-total_households_by_state = (
+
+```
+
+Now that we have identified the households with children who are less than 15
+years old, let's estimate how many of them do not have an internet connection.
+To this end, we are going to join the `with_kids` table we just created with the
+`household` table using the `SERIALNO` field. We can then filter the dataset to
+only keep the households with no internet access represented with "3" in the
+`ACCESSINET` column.
+
+```{python}
+no_internet_households_by_state = (
     household
+    .join(with_kids, with_kids.SERIALNO == _.SERIALNO)
+    .filter((_.ACCESSINET.notnull()) & (_.ACCESSINET == 3))
+    .drop('ST_y')
+    .relabel({"ST_x": "ST"})
+    .group_by('ST')
+    .count()
+    .relabel({"count": "household_no_internet"})
+)
+```
+
+Then, we will tally up the total number of households with children under 15 for
+each state:
+
+```{python}
+
+total_households_by_state = (
+    with_kids
     .group_by('ST')
     .count()
     .relabel({"count": "total_households"})
@@ -170,23 +212,12 @@ total_households_by_state = (
 
 ```
 
-Now let's join the household data with the `with_kids` table we just created above. We'll also just return from this table the households without internet connection. These houses are represented by the number 3 in the `ACCESSINET` column. 
+We can now return the proportion of the houses with children that do not have
+internet access. We will also join the `pums_state` table which contains the
+names of each state so we can more easily interpret the results.
 
 ```{python}
-no_internet_households_by_state = (
-    household
-    .join(with_kids, with_kids.SERIALNO == _.SERIALNO)
-    .filter((_.ACCESSINET.notnull()) & (_.ACCESSINET == 3))
-    .group_by('ST')
-    .count()
-    .relabel({"count": "household_no_internet"})
-)
-```
-
-Let's now return the proportion of the houses in specific states that fall into the data group we've just decribed. 
-
-```{python}
-
+states = ibis.read_csv("pums_states.csv").mutate(pums_code = _.pums_code.cast('string'))
 res = (
     total_households_by_state
     .join(no_internet_households_by_state, no_internet_households_by_state.ST == total_households_by_state.ST)
@@ -201,7 +232,10 @@ res.order_by(ibis.desc(_.prop))
 ```
 
 ::: {.callout-note}
+## Activity
+
 Run this code and show the resulting table.
 :::
 
-Great work! For the last part of this tutorial we'll switch to a remote database and answer a few more questions but using another backend. 
+Great work! For the last part of this tutorial we'll switch to a remote database
+and answer a few more questions but using another backend.
