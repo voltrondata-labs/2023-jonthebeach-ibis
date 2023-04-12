@@ -129,14 +129,20 @@ tenure_type_age_group = (
         .else_("missing")
         .end(),
         age_group=ibis.case()
-        .when(tenure_type.age_householder < 25, "Under 25 years")
-        .when((tenure_type.age_householder >= 25) & (tenure_type.age_householder <= 29), "25 - 29")
-        .when((tenure_type.age_householder >= 30) & (tenure_type.age_householder <= 34), "30 - 34")
-        .when((tenure_type.age_householder >= 35) & (tenure_type.age_householder <= 44), "35 - 44")
-        .when((tenure_type.age_householder >= 45) & (tenure_type.age_householder <= 54), "45 - 54")
-        .when((tenure_type.age_householder >= 55) & (tenure_type.age_householder <= 64), "55 - 64")
-        .when((tenure_type.age_householder >= 65) & (tenure_type.age_householder <= 74), "65 - 74")
-        .when(tenure_type.age_householder >= 75, "75 years and older")
+        .when(tenure_type.age_householder < 25, "< 25")
+        .when((tenure_type.age_householder >= 25) &
+              (tenure_type.age_householder <= 29), "25 - 29")
+        .when((tenure_type.age_householder >= 30) &
+              (tenure_type.age_householder <= 34), "30 - 34")
+        .when((tenure_type.age_householder >= 35) &
+              (tenure_type.age_householder <= 44), "35 - 44")
+        .when((tenure_type.age_householder >= 45) &
+              (tenure_type.age_householder <= 54), "45 - 54")
+        .when((tenure_type.age_householder >= 55) &
+              (tenure_type.age_householder <= 64), "55 - 64")
+        .when((tenure_type.age_householder >= 65) &
+              (tenure_type.age_householder <= 74), "65 - 74")
+        .when(tenure_type.age_householder >= 75, ">= 75")
         .end()
     )
     .group_by([_.age_group, _.tenure_type])
@@ -151,14 +157,15 @@ Finally we'll use plotnine (the Python version of ggplot) to render the graph:
 #| fig-cap: Tenure type by age group
 pdttag = tenure_type_age_group.to_pyarrow().to_pandas()
 pdttag['age_group'] = pd.Categorical(pdttag['age_group'], ordered=True,
-                                     categories=['Under 25 years', '25 - 29', '30 - 34', '35 - 44',
-                                                 '45 - 54', '55 - 64', '65 - 74', '75 years and older'])
+                                     categories=['< 25', '25 - 29', '30 - 34',
+                                                 '35 - 44', '45 - 54', '55 - 64',
+                                                 '65 - 74', '>= 75'])
 
 (ggplot(pdttag, aes('age_group', 'count', color = 'tenure_type'))
- + geom_line(aes(group = 'tenure_type')))
+ + geom_line(aes(group = 'tenure_type'))
+ + xlab("Age of the householder (years)")
+ + guides(color = guide_legend("Tenure Type"))
 ```
-
-![](./assets/img/tenure_by_age.png)
 
 ::: {.callout-note}
 ## Activity
