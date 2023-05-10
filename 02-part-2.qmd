@@ -31,13 +31,13 @@ Luckily for us, census.gov also provides data via their FTP server. We'll be
 using the five-year data from 2021, found
 [here](https://www2.census.gov/programs-surveys/acs/data/pums/2021/5-Year/).
 
-We may have already downloaded the data for you, check with your instructor! If
-this is the case skip to [this section](#examining-the-data).
+For the J on the Beach workshop this data is already downloaded for you! If you'd like to try the workshop out locally follow the download the data section. For now
+skip to [this section](#examining-the-data).
 
 ### Downloading the Data
 
 You can download the data in CSV format using this FTP
-URL: ftp://ftp.census.gov/programs-surveys/acs/data/pums/2021/5-Year/.
+URL: `ftp://ftp.census.gov/programs-surveys/acs/data/pums/2021/5-Year/`.
 To do this use your preferred tool, such as `wget` or `aria2`.
 
 As an example, here's how to download the data using `wget` on a Mac. Run the
@@ -71,7 +71,7 @@ mv psam_p*.csv ./people/
 
 ### Examining the Data 
 
-Once this is done, you should now have two directories full of CSV data that make up approximately 14.13 GB. 
+Once this is done, you should now have two directories full of CSV data that make up approximately 14.13 GB. The PUMS dataset is divided into data about individual people and data representing households.
 
 ::: {.callout-note}
 ## Activity
