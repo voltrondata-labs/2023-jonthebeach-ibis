@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.475">
+<meta name="generator" content="quarto-1.3.340">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,8 +17,42 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -80,33 +114,35 @@ ul.task-list li input[type="checkbox"] {
     <span class="navbar-title">J On The Beach</span>
     </a>
   </div>
+            <div id="quarto-search" class="" title="Search"></div>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html">
+    <a class="nav-link" href="./index.html" rel="" target="">
  <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./01-part-1.html">
+    <a class="nav-link" href="./01-part-1.html" rel="" target="">
  <span class="menu-text">Part 1</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./02-part-2.html">
+    <a class="nav-link" href="./02-part-2.html" rel="" target="">
  <span class="menu-text">Part 2</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./03-part-3.html">
+    <a class="nav-link" href="./03-part-3.html" rel="" target="">
  <span class="menu-text">Part 3</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./04-part-4.html" aria-current="page">
+    <a class="nav-link active" href="./04-part-4.html" rel="" target="" aria-current="page">
  <span class="menu-text">Part 4</span></a>
   </li>  
 </ul>
-              <div id="quarto-search" class="" title="Search"></div>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
@@ -123,8 +159,17 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#working-with-remote-data" id="toc-working-with-remote-data" class="nav-link active" data-scroll-target="#working-with-remote-data">Working with Remote Data</a>
   <ul class="collapse">
   <li><a href="#learning-objectives-1" id="toc-learning-objectives-1" class="nav-link" data-scroll-target="#learning-objectives-1">Learning objectives</a></li>
-  <li><a href="#introduction-to-snowflake" id="toc-introduction-to-snowflake" class="nav-link" data-scroll-target="#introduction-to-snowflake">Introduction to Snowflake</a></li>
+  <li><a href="#introduction-to-snowflakedb" id="toc-introduction-to-snowflakedb" class="nav-link" data-scroll-target="#introduction-to-snowflakedb">Introduction to SnowflakeDB</a></li>
+  <li><a href="#what-is-snowflakedb" id="toc-what-is-snowflakedb" class="nav-link" data-scroll-target="#what-is-snowflakedb">What is SnowflakeDB?</a></li>
   </ul></li>
+  <li><a href="#calculate-average-income-by-state" id="toc-calculate-average-income-by-state" class="nav-link" data-scroll-target="#calculate-average-income-by-state">Calculate Average Income by State</a>
+  <ul class="collapse">
+  <li><a href="#get-the-state-names-and-abbreviations-with-corresponding-codes" id="toc-get-the-state-names-and-abbreviations-with-corresponding-codes" class="nav-link" data-scroll-target="#get-the-state-names-and-abbreviations-with-corresponding-codes">Get the state names and abbreviations with corresponding codes</a></li>
+  <li><a href="#join-the-two-tables-and-order-the-data-by-descending-total_income" id="toc-join-the-two-tables-and-order-the-data-by-descending-total_income" class="nav-link" data-scroll-target="#join-the-two-tables-and-order-the-data-by-descending-total_income">Join the two tables and order the data by descending total_income</a></li>
+  <li><a href="#plot-the-data-first-10-states" id="toc-plot-the-data-first-10-states" class="nav-link" data-scroll-target="#plot-the-data-first-10-states">Plot the data (first 10 states)</a></li>
+  </ul></li>
+  <li><a href="#switch-to-the-snowflakedb-backend-and-analyse-pums-data-stored-remotely-with-the-same-code" id="toc-switch-to-the-snowflakedb-backend-and-analyse-pums-data-stored-remotely-with-the-same-code" class="nav-link" data-scroll-target="#switch-to-the-snowflakedb-backend-and-analyse-pums-data-stored-remotely-with-the-same-code">Switch to the SnowflakeDB backend and analyse PUMS data stored remotely with the same code</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
     </div>
@@ -149,12 +194,12 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 <p>This the website for the workshop “Larger Than Memory Data Workflows with Apache Arrow and Ibis” taught at the J on The Beach conference on May 10th, 2023.</p>
-<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Learning Objectives
 </div>
 </div>
@@ -168,15 +213,144 @@ Learning Objectives
 <h3 class="anchored" data-anchor-id="learning-objectives-1">Learning objectives</h3>
 <ul>
 <li>Connect to Snowflake database</li>
-<li>Show how code from previous tutorial can be reused with different backend</li>
+<li>Show how the same Python code can be reused with different backend</li>
 <li>Make a table and convert it into a local parquet file.</li>
 </ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Because you would need to create a SnowflakeDB account and upload data to it we encourage you to carry out this section at home after the workshop. The intstructor will walk you through this, so feel free to ask questions!</p>
+</div>
+</div>
 </section>
-<section id="introduction-to-snowflake" class="level3">
-<h3 class="anchored" data-anchor-id="introduction-to-snowflake">Introduction to Snowflake</h3>
+<section id="introduction-to-snowflakedb" class="level3">
+<h3 class="anchored" data-anchor-id="introduction-to-snowflakedb">Introduction to SnowflakeDB</h3>
+</section>
+<section id="what-is-snowflakedb" class="level3">
+<h3 class="anchored" data-anchor-id="what-is-snowflakedb">What is SnowflakeDB?</h3>
+<ul>
+<li>Snowflake is a cloud-based data warehousing and analytics platform</li>
+<li>It uses SQL as the platform language to query data stored on the platform</li>
+<li>Great for centralising big data in the cloud</li>
+</ul>
+<p>For this workshop we will use the Ibis SnowflakeDB backend to query PUMS data stored in the cloud.</p>
+<p>We’ll write some code in Ibis using the default DuckDB backend and then switch to the SnowflakeDB backend and use the same code to query the data in the cloud. The ability to switch between backends and use the same code is excellent for prototyping code on a smaller dataset then scaling to a larger one in the cloud.</p>
+</section>
+</section>
+<section id="calculate-average-income-by-state" class="level2">
+<h2 class="anchored" data-anchor-id="calculate-average-income-by-state">Calculate Average Income by State</h2>
+<p>First let’s do this using the default DuckDB backend</p>
+<p>Create a bar chart with the average income by state. Use a groupby to get the mean household income by state</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average income for each state</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>av_income_by_state <span class="op">=</span> household.group_by(household.ST).aggregate(total_income <span class="op">=</span> household.HINCP.mean())</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>av_income_by_state</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="get-the-state-names-and-abbreviations-with-corresponding-codes" class="level3">
+<h3 class="anchored" data-anchor-id="get-the-state-names-and-abbreviations-with-corresponding-codes">Get the state names and abbreviations with corresponding codes</h3>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> ibis.read_csv(<span class="st">'pums_states.csv'</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>states.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="join-the-two-tables-and-order-the-data-by-descending-total_income" class="level3">
+<h3 class="anchored" data-anchor-id="join-the-two-tables-and-order-the-data-by-descending-total_income">Join the two tables and order the data by descending total_income</h3>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>average_income_by_state <span class="op">=</span> av_income_by_state.outer_join(states, av_income_by_state.ST <span class="op">==</span> states.pums_code)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>average_income_by_state <span class="op">=</span> average_income_by_state.drop(<span class="st">'pums_code'</span>).order_by(ibis.desc(_.total_income))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>average_income_by_state</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="plot-the-data-first-10-states" class="level3">
+<h3 class="anchored" data-anchor-id="plot-the-data-first-10-states">Plot the data (first 10 states)</h3>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>av_income_by_state <span class="op">=</span> average_income_by_state.head(<span class="dv">10</span>).execute()</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># #get the state abbreviations instead of full names</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># names = [name for name in av_income_by_state.state]</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_axes([<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>ax.bar(av_income_by_state.state,av_income_by_state.total_income, color<span class="op">=</span>(<span class="fl">0.0</span>, <span class="fl">0.196</span>, <span class="fl">0.196</span>, <span class="fl">1.0</span>))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./assets/img/states_by_income.png" class="img-fluid figure-img" alt="Diagram showing the average income per state for the top 10 states in the US."></p>
+<figcaption class="figure-caption">Diagram showing the average income per state for the top 10 states in the US.</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="switch-to-the-snowflakedb-backend-and-analyse-pums-data-stored-remotely-with-the-same-code" class="level2">
+<h2 class="anchored" data-anchor-id="switch-to-the-snowflakedb-backend-and-analyse-pums-data-stored-remotely-with-the-same-code">Switch to the SnowflakeDB backend and analyse PUMS data stored remotely with the same code</h2>
+<p>Connect to the SnowflakeDB PUMS database</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>con <span class="op">=</span> ibis.<span class="ex">connect</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"snowflake://username:password@account/MY_PUMS/MY_PUMS_SCHEMA"</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>print the names of the tables in the database</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>con.tables</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>connect to the household table and preview it</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>household <span class="op">=</span> con.tables.HOUSEHOLD</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>household.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Run the same code we used above but now on a table in the cloud</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the average income for each state</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>av_income_by_state <span class="op">=</span> household.group_by(household.ST).aggregate(total_income <span class="op">=</span> household.HINCP.mean())</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> ibis.read_csv(<span class="st">'pums_states.csv'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>average_income_by_state <span class="op">=</span> av_income_by_state.outer_join(states, av_income_by_state.ST <span class="op">==</span> states.pums_code)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>average_income_by_state <span class="op">=</span> average_income_by_state.drop(<span class="st">'pums_code'</span>).order_by(ibis.desc(_.total_income))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>av_income_by_state <span class="op">=</span> average_income_by_state.head(<span class="dv">10</span>).execute()</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># #get the state abbreviations instead of full names</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># names = [name for name in av_income_by_state.state]</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.figure()</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> fig.add_axes([<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>])</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>ax.bar(av_income_by_state.state,av_income_by_state.total_income, color<span class="op">=</span>(<span class="fl">0.0</span>, <span class="fl">0.196</span>, <span class="fl">0.196</span>, <span class="fl">1.0</span>))</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="./assets/img/states_by_income.png" class="img-fluid figure-img" alt="Diagram showing the average income per state for the top 10 states in the US."></p>
+<figcaption class="figure-caption">Diagram showing the average income per state for the top 10 states in the US.</figcaption>
+</figure>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>That’s all for today’s workshop! Thank you for joining us. If you have any questions don’t hesitate to reach out to us at:</p>
+<ul>
+<li>marlene@voltrondata.com</li>
+<li>francois@voltrondata.com</li>
+</ul>
+<p>We hope you found this helpful!</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -207,9 +381,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -274,6 +462,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
