@@ -195,7 +195,7 @@ Learning objectives
 </ul>
 <p>These records represent the fact that PUMS is divided into data about people and data about households. Person data is named <code>psam_p**.csv</code>, and household data is named <code>psam_h**.csv</code>. The household and person data can be joined using the <code>SERIALNO</code> field. Each household is identified with a unique <code>SERIALNO</code>, and each person is identified by the combination of the <code>SERIALNO</code> and <code>SPORDER</code> values.</p>
 <p>Because the PUMS data is a sample of 1% of the population, the data includes weights that can be used to estimate the number of people the observation represents. For this tutorial, we do not take these weights into account as we are focusing on how to work with data rather than exact demographic estimates. If you would like to learn more about using the weights included in the ACS PUMS data to calculate more accurate estimates, you can refer to this document from the <a href="https://www.census.gov/content/dam/Census/library/publications/2021/acs/acs_pums_handbook_2021_ch05.pdf">US Census Bureau</a>.</p>
-<p>Each file contains over 234 columns, and you can find the column name and the question that was asked to retrieve the information in the <a href="https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2021.pdf">PUMS Data Dictionary</a>.</p>
+<p>Each file contains over 234 columns, and you can find the column name and the question that was asked to retrieve the information in the <a href="https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2017-2021.pdf">PUMS Data Dictionary</a>.</p>
 <p>In this tutorial, we are going to explore how the proportion of people owning and renting their house changes with age. We will also calculate the proportion of households with children under the age of 15 that do not have internet access.</p>
 <p>For this, we will use the following columns from the household and person datasets:</p>
 <ul>
@@ -212,8 +212,8 @@ Learning objectives
 </ul></li>
 </ul>
 <p>We are also providing a <a href="./data/pums_states.csv">table</a> that we can use to convert the numerically-encoded US states into their 2-letter abbreviations.</p>
-<p>More dataset info: <a href="https://www.census.gov/programs-surveys/acs/microdata/documentation.2020.html#list-tab-1370939201">https://www.census.gov/programs-surveys/acs/microdata/documentation.2020.html#list-tab-1370939201</a></p>
-<p>Data source (FTP): <a href="https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/">https://www2.census.gov/programs-surveys/acs/data/pums/2020/5-Year/</a></p>
+<p>More dataset info: <a href="https://www.census.gov/programs-surveys/acs/microdata/documentation.2021.html#list-tab-1370939201" class="uri">https://www.census.gov/programs-surveys/acs/microdata/documentation.2021.html#list-tab-1370939201</a>.</p>
+<p>Data source (FTP): <a href="https://www2.census.gov/programs-surveys/acs/data/pums/2021/5-Year/" class="uri">https://www2.census.gov/programs-surveys/acs/data/pums/2021/5-Year/</a>.</p>
 <p>In Part 2 of this tutorial we will get the data from the FTP site and and store it on our machine.</p>
 
 
