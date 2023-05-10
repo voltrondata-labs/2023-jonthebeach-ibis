@@ -5,11 +5,6 @@ execute:
 jupyter: python3
 ---
 
-This the website for the workshop "Larger Than Memory Data Workflows
-with Apache Arrow and Ibis" taught at the J on The Beach conference on
-May 10th, 2023.
-
-
 ::: {.callout-tip}
 ## Learning objectives
 
@@ -34,7 +29,7 @@ data we can select at a time.
 
 Luckily for us, census.gov also provides data via their FTP server. We'll be
 using the five-year data from 2021, found
-[here](https://www2.census.gov/programs-surveys/acs/data/pums/2021/).
+[here](https://www2.census.gov/programs-surveys/acs/data/pums/2021/5-Year/).
 
 For the J on the Beach workshop this data is already downloaded for you! If you'd like to try the workshop out locally follow the download the data section. For now
 skip to [this section](#examining-the-data).
@@ -80,7 +75,6 @@ Once this is done, you should now have two directories full of CSV data that mak
 
 ::: {.callout-note}
 ## Activity
-
  - Check the size of the two directories on your machine, are they also 14GB? 
 :::
 
