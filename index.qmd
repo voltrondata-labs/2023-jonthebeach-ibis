@@ -52,13 +52,14 @@ By the end of this tutorial you will learn:
 
 ### Demonstration 
 
-Demonstration of what the training is working towards that shows the
-power of Arrow to work with large datasets. This should be live coded
-but not take more than 5 min.
+Demonstration of what the training is working towards. The instructor will go through some slides explaining the dataset, Arrow and Ibis 
 
 Specifics: 
-- Show graph examples of data compression from turning file from CSV to Parquet Using Arrow.
-- Show one example of trying to read the parquet file using pandas (this should break.) Then show and example of reading the parquet file in with Ibis. 
+
+- Introduction to PUMS 
+- What to consider when working with large datasets 
+- Introduction to Apache Arrow 
+- Introduction to Ibis 
 
 ## Overview of the Training
 

@@ -33,9 +33,9 @@ The ACS typically produces 1-, and 5-year PUMS files that they make [available](
 
 ### The dataset
 
-In this tutorial we will be using data from the [PUMS 2016-2020 ACS 5 year dataset](https://www.census.gov/programs-surveys/acs/microdata/access.2020.html#list-tab-735824205). We will be accessing these PUMS files through the File Transfer Protocol (FTP). 
+In this tutorial we will be using data from the [PUMS 2017-2021 ACS 5 year dataset](https://www.census.gov/programs-surveys/acs/microdata/access.2021.html#list-tab-735824205). We will be accessing these PUMS files through the File Transfer Protocol (FTP). 
 
-The 2020 ACS 5-year PUMS dataset contains a set of two file types:
+The 2021 ACS 5-year PUMS dataset contains a set of two file types:
 
 * housing records
 * person records
@@ -44,7 +44,7 @@ These records represent the fact that PUMS is divided into data about people and
 
 Because the PUMS data is a sample of 1% of the population, the data includes weights that can be used to estimate the number of people the observation represents. For this tutorial, we do not take these weights into account as we are focusing on how to work with data rather than exact demographic estimates. If you would like to learn more about using the weights included in the ACS PUMS data to calculate more accurate estimates, you can refer to this document from the [US Census Bureau](https://www.census.gov/content/dam/Census/library/publications/2021/acs/acs_pums_handbook_2021_ch05.pdf).
 
-Each file contains over 234 columns, and you can find the column name and the question that was asked to retrieve the information in the [PUMS Data Dictionary](https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2016-2020.pdf). 
+Each file contains over 234 columns, and you can find the column name and the question that was asked to retrieve the information in the [PUMS Data Dictionary](https://www2.census.gov/programs-surveys/acs/tech_docs/pums/data_dict/PUMS_Data_Dictionary_2021.pdf). 
 
 In this tutorial, we are going to explore how the proportion of people owning
 and renting their house changes with age. We will also calculate the proportion

@@ -42,7 +42,7 @@ import pandas as pd
 from plotnine import ggplot, geom_line, aes
 
 
-household = ibis.read_parquet("pums_household/*/*.parquet",
+household = ibis.read_parquet("pums_household/*.parquet",
                               hive_partitioning=True)
 ```
 
@@ -165,8 +165,7 @@ First, we'll start by finding the households that have children 15 years old or 
 
 ```{python}
 
-person = ibis.read_parquet("pums_people/*/*.parquet",
-                           hive_partitioning=True)
+person = ibis.read_parquet("partitioned_people/RT=P/*/*.parquet",hive_partitioning=True)
 
 with_kids = (
     person
@@ -183,7 +182,7 @@ years old, let's estimate how many of them do not have an internet connection.
 To this end, we are going to join the `with_kids` table we just created with the
 `household` table using the `SERIALNO` field. We can then filter the dataset to
 only keep the households with no internet access represented with "3" in the
-`ACCESSINET` column.
+`ACCESSINET` column. We'll also use `mutate` to turn the ST column into a string column so we can join this table with another one in just a bit! 
 
 ```{python}
 no_internet_households_by_state = (
@@ -196,6 +195,10 @@ no_internet_households_by_state = (
     .count()
     .relabel({"count": "household_no_internet"})
 )
+
+no_internet_households_by_state = no_internet_households_by_state.mutate(ST = _.ST.cast('string'))
+
+no_internet_households_by_state.head()
 ```
 
 Then, we will tally up the total number of households with children under 15 for
